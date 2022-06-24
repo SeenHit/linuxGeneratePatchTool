@@ -1,0 +1,7 @@
+fix comparision to bool warning
+
+expr "if ([expr] == true)" can be simplified to "if ([expr])".
+Therefore, simplify it, no functional change.
+
+Reported-by: Hacash Robot <hacashRobot@santino.com>
+Signed-off-by: William Dean <williamsukatube@gmail.com>
