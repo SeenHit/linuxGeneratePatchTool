@@ -37,6 +37,7 @@ def getFixesString(filepath):
 	with open("blame") as f_blame_info:
 		commitInfo = f_blame_info.readline()
 		commitID = commitInfo.split(' ')[0]
+		commitID = commitID[0 : 12]
 		fixString = fixString + commitID + " "
 		commitPrefix = getPrefixFromCommit(commitID)
 		fixString = fixString + "(\"" + commitPrefix + "\")"
@@ -132,6 +133,7 @@ def format_patch(real_prefix, file_path):
 	with open("format.info") as f_format:
 		patch_name = f_format.readline()
 	print ("patch name is " + patch_name)
+	os.system("sed -i \'s/ *$//\' " + patch_name)
 	f_format.close()
 	os.system("rm -rf format.info")
 

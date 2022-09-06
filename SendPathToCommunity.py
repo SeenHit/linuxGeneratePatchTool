@@ -73,11 +73,28 @@ def checkpatch(patch_name):
 	print ("check patch success!")
 	return 0
 
+def checkpatchStrict(patch_name):
+	os.system("./scripts/checkpatch.pl -f %s > checkpatch.info" %(patch_name))
+	with open("checkpatch.info") as f:
+		data = f.readlines()
+		for line in data:
+			if (line.find("total") != -1 and line.find("0 errors, 0 warnings") == -1):
+				print "checkpatch failed!!! please check formath again!!!"
+				f.close()
+				os.system("rm -rf checkpatch.info")
+				os._exit(0)
+
+	f.close()
+	os.system("rm -rf checkpatch.info")
+	print ("check patch success!")
+	return 0
+
 # send patch by shell command
 def send_patch(mail_args):
 	os.system(mail_args)
 
 if __name__ == "__main__":
 	checkpatch(sys.argv[1])
+	checkpatchStrict(sys.argv[1])
 	mail_args = get_send_patch_cmd()
 	send_patch(mail_args)
